@@ -1,0 +1,133 @@
+﻿@using Web.Models;
+@model EmployeePageModel
+
+<h1>All Employees</h1>
+
+<button style="margin-top: 20px" class="btn btn-warning" data-bs-target="#newEmployeeModal" data-bs-toggle="modal">Add new employee</button>
+<div class="row" style="margin-top: 50px">
+    <div class="col-md-9" style="border-right: 2px solid purple">
+        <div class="row">
+            @foreach (var employee in Model.Employees)
+            {
+                <div class="col-md-3 text-center">
+                    <div data-bs-target="#checkEmployeeModal" data-bs-toggle="modal" class="circle" onclick="Site.checkEmployeeDetails('@employee.Id')">
+                        <img height="200" width="200"
+                         src="@employee.PictureUrl" alt="@employee.FirstName @employee.LastName">
+                    </div>
+                    <h4>@employee.FirstName @employee.LastName</h4>
+                </div>
+            }
+        </div>
+
+    </div>
+    <div class="col-md-3 text-center">
+        <h3 style="text-align: center">Add Employee to Department</h3>
+        <label for="assignEmployee" style="margin-top: 20px">Assing employee</label>
+        <select id="assignEmployee" class="form-select">
+            @foreach(var employee in Model.Employees)
+            {
+                <option value="@employee.Id">@employee.FirstName @employee.LastName</option>
+            }
+        </select>
+        <label for="assignToDepartment" style="margin-top: 20px">To department</label>
+        <select id="assignToDepartment" class="form-select">
+            @foreach (var department in Model.Departments)
+            {
+                <option value="@department.Id">@department.Name</option>
+            }
+        </select>
+        <button class="btn text-center" style="margin-top: 20px; background-color: purple; color: white" onclick="Site.assignEmployeeToDepartment()">Finish</button>
+        <p class="text-success" id="assignToDepartmentMessage" style="display: none">Employee added to department successfully!</p>
+    </div>
+</div>
+
+<div class="modal fade" id="checkEmployeeModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Employee Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="employeeId">Id: </label>
+                        <input type="text" disabled class="form-control" id="employeeId" />
+                    </div>
+                    <div class="col-md-6" style="margin-top: 20px">
+                        <label for="employeeFirstName">First Name: </label>
+                        <input type="text" class="form-control" placeholder="Enter first name..." id="employeeFirstName" />
+                    </div>
+                    <div class="col-md-6" style="margin-top: 20px">
+                        <label for="employeeLastName">Last Name: </label>
+                        <input type="text" class="form-control" placeholder="Enter last name..." id="employeeLastName" />
+                    </div>
+                    <div class="col-md-6" style="margin-top: 20px">
+                        <label for="employeeRoleName">Role Name: </label>
+                        <input type="text" class="form-control" placeholder="Enter role name..." id="employeeRoleName" />
+                    </div>
+                    <div class="col-md-6" style="margin-top: 20px">
+                        <label for="employeeDateOfBirth">Date of Birth (dd/MM/yyyy HH:mm:ss): </label>
+                        <input type="text" class="form-control" placeholder="Enter date of birth..." id="employeeDateOfBirth" />
+                    </div>
+                    <div class="col-md-6" style="margin-top: 20px">
+                        <label for="employeeStartDate">Start Date (dd/MM/yyyy HH:mm:ss): </label>
+                        <input type="text" class="form-control" placeholder="Enter start date..." id="employeeStartDate" />
+                    </div>
+                    <div class="col-md-12" style="margin-top: 20px">
+                        <label for="employeePictureUrl">Avatar Url: </label>
+                        <input type="text" class="form-control" placeholder="Enter avatar url..." id="employeePictureUrl" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn" style="background-color: yellow; color: black" onclick="Site.deleteEmployee()">Delete</button>
+                <button type="button" class="btn" style="background-color: purple; color: white" onclick="Site.saveEmployee()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="newEmployeeModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Add new employee</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6" style="margin-top: 20px">
+                        <label for="newEmployeeFirstName">First Name: </label>
+                        <input type="text" class="form-control" placeholder="Enter first name..." id="newEmployeeFirstName" />
+                    </div>
+                    <div class="col-md-6" style="margin-top: 20px">
+                        <label for="newEmployeeLastName">Last Name: </label>
+                        <input type="text" class="form-control" placeholder="Enter last name..." id="newEmployeeLastName" />
+                    </div>
+                    <div class="col-md-6" style="margin-top: 20px">
+                        <label for="newEmployeeRoleName">Role Name: </label>
+                        <input type="text" class="form-control" placeholder="Enter role name..." id="newEmployeeRoleName" />
+                    </div>
+                    <div class="col-md-6" style="margin-top: 20px">
+                        <label for="newEmployeeDateOfBirth">Date of Birth (dd/MM/yyyy HH:mm:ss): </label>
+                        <input type="text" class="form-control" placeholder="Enter date of birth..." id="newEmployeeDateOfBirth" />
+                    </div>
+                    <div class="col-md-6" style="margin-top: 20px">
+                        <label for="newEmployeeStartDate">Start Date (dd/MM/yyyy HH:mm:ss): </label>
+                        <input type="text" class="form-control" placeholder="Enter start date..." id="newEmployeeStartDate" />
+                    </div>
+                    <div class="col-md-12" style="margin-top: 20px">
+                        <label for="newEmployeePictureUrl">Avatar Url: </label>
+                        <input type="text" class="form-control" placeholder="Enter avatar url..." id="newEmployeePictureUrl" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn" style="background-color: purple; color: white" onclick="Site.addEmployee()">Add</button>
+            </div>
+        </div>
+    </div>
+</div>

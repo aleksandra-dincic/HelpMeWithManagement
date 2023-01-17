@@ -1,0 +1,71 @@
+﻿@using Application.Models;
+@model List<DepartmentModel>
+
+<h1>All Departments</h1>
+
+<button style="margin-top: 20px" class="btn btn-warning" data-bs-target="#newDepartmentModal" data-bs-toggle="modal">Add new department</button>
+<div class="row" style="margin-top: 20px">
+    <div class="col-md-12">
+        <div class="row">
+            @foreach (var department in Model)
+            {
+                <div class="col-md-4" style="margin-top: 20px">
+                    <div class="card">
+                            <h5 class="card-header">@department.Name</h5>
+                        <div class="card-body">
+                            <p class="card-text">@department.Description</p>
+                            <hr>
+                            @foreach(var employee in department.Employees)
+                            {
+                                 <div class="circle" style="border:1px solid black !important">
+                                        <img height="30" width="30" src="@employee.PictureUrl" alt="@employee.FirstName @employee.LastName">
+                                 </div>
+                            }
+                        </div>
+                        <div class="card-footer">
+                            <button style="text-align: right !important" class="btn btn-danger" onclick="Site.deleteDepartment('@department.Id')">Delete</button>
+                            </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="newDepartmentModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Add new department</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6" style="margin-top: 20px">
+                        <label for="newDepartmentName">Name: </label>
+                        <input type="text" class="form-control" placeholder="Enter first name..." id="newDepartmentName" />
+                    </div>
+                    <div class="col-md-6" style="margin-top: 20px">
+                        <label for="newDepartmentType">Type: </label>
+                        <select id="newDepartmentType" class="form-select">
+                            <option disabled selected>Please select department type...</option>
+                            <option value="1">IT</option>
+                            <option value="2">Marketing</option>
+                            <option value="3">Management</option>
+                            <option value="4">Operations</option>
+                            <option value="5">HR</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12" style="margin-top: 20px">
+                        <label for="newDepartmentDescription">Description: </label>
+                        <textarea placeholder="Please enter description..." id="newDepartmentDescription" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn" style="background-color: purple; color: white" onclick="Site.addDepartment()">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
